@@ -36,7 +36,11 @@ flowchart TB
     Bitstamp["Bitstamp"]
 
     %% Stage 1 - Ingest (library)
-    ingest("cryptomeria-ingest<br/>Rust library<br/>Tokio + Tungstenite<br/>connect, parse, normalize<br/>snapshot, backoff, heartbeat")
+    ingest("cryptomeria-ingest
+    Rust library
+    Tokio + Tungstenite
+    connect, parse, normalize
+    snapshot, backoff, heartbeat")
 
     %% Stage 2 - Marketdata (service)
     marketdata["cryptomeria-marketdata<br/>service<br/>one task per exchange<br/>bounded channel to NNG"]

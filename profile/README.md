@@ -29,7 +29,7 @@ analytical time-series store.
 ### Architecture
 
 ```mermaid
-flowchart LR
+flowchart TB
     %% Exchange feeds
     OKX["OKX"]
     Kraken["Kraken"]

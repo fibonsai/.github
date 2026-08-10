@@ -36,16 +36,16 @@ flowchart TB
     Bitstamp["Bitstamp"]
 
     %% Stage 1 - Ingest (library)
-    ingest("cryptomeria-ingest<br/>library · Tokio + Tokio-Tungstenite<br/>connect · parse · normalize<br/>snapshot · backoff · heartbeat")
+    ingest("cryptomeria-ingest<br/>Rust library<br/>Tokio + Tungstenite<br/>connect, parse, normalize<br/>snapshot, backoff, heartbeat")
 
     %% Stage 2 - Marketdata (service)
-    marketdata["cryptomeria-marketdata<br/>service<br/>one task per exchange<br/>bounded channel → NNG"]
+    marketdata["cryptomeria-marketdata<br/>service<br/>one task per exchange<br/>bounded channel to NNG"]
 
     %% NNG pub/sub broker
-    nng(["NNG PUB/SUB<br/>topic = {kind}__{instrument}<br/>lob__btcusd · trade__btcusd"])
+    nng(["NNG PUB/SUB<br/>topic: {kind}__{instrument}<br/>lob__btcusd, trade__btcusd"])
 
     %% Stage 3 - Historic (subscriber)
-    historic["cryptomeria-historic<br/>subscriber<br/>deserialize · persist<br/>schema V1 trades · V2 lob_levels"]
+    historic["cryptomeria-historic<br/>subscriber<br/>deserialize, persist<br/>schema V1 trades, V2 lob_levels"]
 
     %% Analytical store
     questdb[("QuestDB<br/>analytical time-series store")]

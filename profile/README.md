@@ -11,7 +11,6 @@ automated strategies, and AI agents for portfolio management.
 
 -   **[Cryptomeria](#projects)** — a production-grade market-data pipeline
     written in [Rust](https://www.rust-lang.org/)
--   **[Blog](/blog)** — notes on bots, strategies, and agents
 -   **[License](#license)** — everything is Apache-2.0
 
 ---
@@ -44,7 +43,7 @@ flow from ingest to store without translation loss.
 
 | Feature | `cryptomeria-ingest` | `cryptomeria-marketdata` | `cryptomeria-historic` |
 | :--- | :---: | :---: | :---: |
-| OKX / Kraken / Bitstamp | ✅ | ✅ | — |
+| OKX / Kraken / Bitstamp | ✅ | ✅ | ✅ |
 | Normalized LOB + Trade | ✅ | ✅ | ✅ |
 | Automatic reconnect (backoff + jitter) | ✅ | ✅ | — |
 | NNG pub/sub topic routing | — | ✅ | ✅ (sub) |

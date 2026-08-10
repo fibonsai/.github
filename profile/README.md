@@ -28,11 +28,40 @@ analytical time-series store.
 
 ### Architecture
 
-```
-Exchange WS ──> cryptomeria-ingest (lib) ──> cryptomeria-marketdata ──NNG PUB──> cryptomeria-historic ──> QuestDB
-                       (connect, parse,        (one task/exchange,      {kind}__{instrument}         (qwp/ws,
-                    normalize, snapshot,         bounded channel,          framed messages              schema V1-V2)
-                    backoff, heartbeat)                              topic = lob__btcusd | trade__btcusd
+```mermaid
+flowchart LR
+    %% Exchange feeds
+    OKX["OKX"]
+    Kraken["Kraken"]
+    Bitstamp["Bitstamp"]
+
+    %% Stage 1 - Ingest (library)
+    ingest("cryptomeria-ingest<br/>library · Tokio + Tokio-Tungstenite<br/>connect · parse · normalize<br/>snapshot · backoff · heartbeat")
+
+    %% Stage 2 - Marketdata (service)
+    marketdata["cryptomeria-marketdata<br/>service<br/>one task per exchange<br/>bounded channel → NNG"]
+
+    %% NNG pub/sub broker
+    nng(["NNG PUB/SUB<br/>topic = {kind}__{instrument}<br/>lob__btcusd · trade__btcusd"])
+
+    %% Stage 3 - Historic (subscriber)
+    historic["cryptomeria-historic<br/>subscriber<br/>deserialize · persist<br/>schema V1 trades · V2 lob_levels"]
+
+    %% Analytical store
+    questdb[("QuestDB<br/>analytical time-series store")]
+
+    OKX --> ingest
+    Kraken --> ingest
+    Bitstamp --> ingest
+    ingest --> marketdata
+    marketdata --> nng
+    nng --> historic
+    historic --> questdb
+
+    classDef exchange fill:#e0f2f1,stroke:#00695c,stroke-width:1px
+    classDef store fill:#fff8e1,stroke:#ff6f00,stroke-width:1px
+    class OKX,Kraken,Bitstamp exchange
+    class questdb store
 ```
 
 Each `cryptomeria-*` crate is independently versioned, licensed, and

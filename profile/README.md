@@ -36,23 +36,19 @@ flowchart TB
     Bitstamp["Bitstamp"]
 
     %% Stage 1 - Ingest (library)
-    ingest("cryptomeria-ingest
-    Rust library
-    Tokio + Tungstenite
-    connect, parse, normalize
-    snapshot, backoff, heartbeat")
+    ingest("cryptomeria-ingest - Rust library")
 
     %% Stage 2 - Marketdata (service)
-    marketdata["cryptomeria-marketdata<br/>service<br/>one task per exchange<br/>bounded channel to NNG"]
+    marketdata["cryptomeria-marketdata - service bounded channel to NNG"]
 
     %% NNG pub/sub broker
-    nng(["NNG PUB/SUB<br/>topic: {kind}__{instrument}<br/>lob__btcusd, trade__btcusd"])
+    nng(["NNG PUB/SUB<br/>topic: {kind}__{instrument}"])
 
     %% Stage 3 - Historic (subscriber)
-    historic["cryptomeria-historic<br/>subscriber<br/>deserialize, persist<br/>schema V1 trades, V2 lob_levels"]
+    historic["cryptomeria-historic - subscriber and persist"]
 
     %% Analytical store
-    questdb[("QuestDB<br/>analytical time-series store")]
+    questdb[("QuestDB - analytical time-series store")]
 
     OKX --> ingest
     Kraken --> ingest
@@ -62,7 +58,7 @@ flowchart TB
     nng --> historic
     historic --> questdb
 
-    classDef exchange fill:#e0f2f1,stroke:#00695c,stroke-width:1px
+    classDef exchange fill:#fff8e1,stroke:#ff6f00,stroke-width:1px
     classDef store fill:#fff8e1,stroke:#ff6f00,stroke-width:1px
     class OKX,Kraken,Bitstamp exchange
     class questdb store

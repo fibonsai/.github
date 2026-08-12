@@ -60,10 +60,7 @@ flowchart TB
     %% Risk Management
     risk["cryptomeria-risk (future) - risk management"]
 
-    OKX --> ingest
-    Kraken --> ingest
-    Bitstamp --> ingest
-    Bitvavo --> ingest
+    OKX & Kraken & Bitstamp & Bitvavo--> ingest
     ingest --> marketdata
     marketdata --> nng
     nng --> historic
@@ -72,10 +69,7 @@ flowchart TB
     nng --> strategy
     strategy --> trader
     risk --> trader
-    trader --> OKX
-    trader --> Kraken
-    trader --> Bitstamp
-    trader --> Bitvavo
+    trader --> OKX & Kraken & Bitstamp & Bitvavo
 
     class OKX,Kraken,Bitstamp,Bitvavo exchange
     class questdb store

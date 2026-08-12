@@ -51,6 +51,15 @@ flowchart TB
     %% Analytical store
     questdb[("QuestDB - analytical time-series store")]
 
+    %% Strategy
+    strategy["cryptomeria-strategy (future) - process rules and send signals"]
+
+    %% Trader
+    trader["cryptomeria-trader (future) - process signals, manage positions"]
+
+    %% Risk Management
+    risk["cryptomeria-risk (future) - risk management"]
+
     OKX --> ingest
     Kraken --> ingest
     Bitstamp --> ingest
@@ -59,9 +68,17 @@ flowchart TB
     marketdata --> nng
     nng --> historic
     historic --> questdb
+    questdb --> strategy
+    nng --> strategy
+    strategy --> trader
+    risk --> trader
+    trader --> OKX
+    trader --> Kraken
+    trader --> Bitstamp
+    trader --> Bitvavo
 
-    classDef exchange fill:#fff8e1,stroke:#ff6f00,stroke-width:1px
-    classDef store fill:#fff8e1,stroke:#ff6f00,stroke-width:1px
+    classDef exchange
+    classDef store
     class OKX,Kraken,Bitstamp,Bitvavo exchange
     class questdb store
 ```
@@ -145,7 +162,7 @@ We follow [Rust] idioms and a shared set of standards across all crates:
 
 | Resource | Link |
 | :--- | :--- |
-| Code of conduct | [CONTRIBUTING.md](https://github.com/fibonsai/cryptomeria-ingest/blob/main/CODE_OF_CONDUCT.md) |
+| Code of conduct | [CODE_OF_CONDUCT.md](https://github.com/fibonsai/cryptomeria-ingest/blob/main/CODE_OF_CONDUCT.md) |
 | How to contribute | [CONTRIBUTING.md](https://github.com/fibonsai/cryptomeria-ingest/blob/main/CONTRIBUTING.md) |
 | Report a vulnerability | [SECURITY.md](https://github.com/fibonsai/cryptomeria-ingest/blob/main/SECURITY.md) |
 | Development guide | [AGENTS.md](https://github.com/fibonsai/cryptomeria-ingest/blob/main/AGENTS.md) |

@@ -31,11 +31,15 @@ analytical time-series store.
 ```mermaid
 flowchart TB
 
+    subgraph exchanges
+
     %% Exchange feeds
     OKX["OKX"]
     Kraken["Kraken"]
     Bitstamp["Bitstamp"]
     Bitvavo["Bitvavo"]
+
+    end
 
     %% Stage 1 - Ingest (library)
     ingest("cryptomeria-ingest - Rust library")
@@ -61,11 +65,7 @@ flowchart TB
     %% Risk Management
     risk["cryptomeria-risk (future) - risk management"]
 
-    subgraph marketdatas
-    OKX -- Kraken -- Bitstamp -- Bitvavo
-    end
-
-    marketdatas --> ingest
+    exchanges --> ingest
     ingest --> marketdata
     marketdata --> nng
     nng --> historic
@@ -74,11 +74,6 @@ flowchart TB
     nng --> strategy
     strategy --> trader
     risk --> trader
-
-    subgraph exchanges
-    OKX -- Kraken -- Bitstamp -- Bitvavo
-    end
-
     trader --> exchanges
 
     class OKX,Kraken,Bitstamp,Bitvavo exchange

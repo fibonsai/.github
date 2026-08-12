@@ -30,6 +30,7 @@ analytical time-series store.
 
 ```mermaid
 flowchart TB
+
     %% Exchange feeds
     OKX["OKX"]
     Kraken["Kraken"]
@@ -60,7 +61,11 @@ flowchart TB
     %% Risk Management
     risk["cryptomeria-risk (future) - risk management"]
 
-    OKX & Kraken & Bitstamp & Bitvavo--> ingest
+    subgraph marketdatas
+    OKX -- Kraken -- Bitstamp -- Bitvavo
+    end
+
+    marketdatas --> ingest
     ingest --> marketdata
     marketdata --> nng
     nng --> historic
@@ -69,7 +74,12 @@ flowchart TB
     nng --> strategy
     strategy --> trader
     risk --> trader
-    trader --> OKX & Kraken & Bitstamp & Bitvavo
+
+    subgraph exchanges
+    OKX -- Kraken -- Bitstamp -- Bitvavo
+    end
+
+    trader --> exchanges
 
     class OKX,Kraken,Bitstamp,Bitvavo exchange
     class questdb store

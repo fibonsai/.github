@@ -77,8 +77,6 @@ flowchart TB
     trader --> Bitstamp
     trader --> Bitvavo
 
-    classDef exchange
-    classDef store
     class OKX,Kraken,Bitstamp,Bitvavo exchange
     class questdb store
 ```

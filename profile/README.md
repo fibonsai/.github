@@ -73,6 +73,7 @@ flowchart TB
     questdb --> strategy
     nng --> strategy
     strategy --> trader
+    exchanges --> risk
     risk --> trader
     trader --> exchanges
 
